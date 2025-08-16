@@ -53,7 +53,7 @@ export function TaperModal({
         setCurveType(
           existingPlan.strategy === "exponential" ||
             existingPlan.strategy === "sigmoid"
-            ? (existingPlan.strategy as any)
+            ? existingPlan.strategy
             : "linear"
         );
       } else {
@@ -369,7 +369,8 @@ export function TaperModal({
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-foreground/60">
-                    {preview.duration} weeks • {preview.end.toFixed(2)}g/day goal
+                    {preview.duration} weeks • {preview.end.toFixed(2)}g/day
+                    goal
                   </div>
                   <div className="text-sm font-medium text-emerald-500">
                     {preview.current.toFixed(2)}g → {preview.goal.toFixed(2)}g

@@ -23,6 +23,8 @@ export default [
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      // Include Next.js recommended rules (Core Web Vitals)
+      ...nextPlugin.configs["core-web-vitals"].rules,
     },
   },
 ];
