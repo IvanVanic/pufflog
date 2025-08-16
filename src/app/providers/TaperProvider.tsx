@@ -15,6 +15,7 @@ import {
   DerivedTaperState,
   DailyTotal,
   Suggestion,
+  TaperStrategy,
   aggregateDailyTotals,
   computeBaseline,
   computeDerived,
