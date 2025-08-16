@@ -51,7 +51,7 @@ export function StatsSection({ entries }: Props) {
           title="Spending (€)"
           subtitle="per day"
           kind="bar"
-          data={byDay.map((d) => ({ label: d.label, value: d.spend }))}
+          data={byDay.map((d) => ({ label: d.label, value: d.spend ?? 0 }))}
         />
         <HeatmapCard
           title="Time of day (last 3 days)"
