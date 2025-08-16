@@ -8,7 +8,7 @@ export type LogEntry = {
   date: string; // ISO string
 };
 
-export type TaperStrategy = 'linear' | 'fixed' | 'session' | 'hybrid';
+export type TaperStrategy = 'linear' | 'exponential' | 'sigmoid' | 'fixed' | 'hybrid';
 
 export type TaperPreset = {
   id: string;

@@ -181,15 +181,16 @@ export function TaperProvider({ children }: { children: React.ReactNode }) {
       ) {
         // Regenerate targets using the best available info
         if (merged.goal_g !== undefined) {
-          const strat =
+          const strat = (
             merged.strategy === "exponential" || merged.strategy === "sigmoid"
               ? merged.strategy
-              : "linear";
+              : "linear"
+          ) as "linear" | "exponential" | "sigmoid";
           let targets = generatePlanFromGoal(
             merged.baseline_g,
             merged.goal_g,
             merged.length_weeks,
-            strat as TaperStrategy
+            strat
           );
           if (settings.roundTaperTargets) {
             const step = 0.05;
