@@ -69,7 +69,7 @@ export default function StatsPage() {
         <h2 className="text-2xl font-medium mb-4">Stats</h2>
         <div className="flex items-center justify-center gap-2">
           <MetricSelect value={metric} onChange={setMetric} />
-          <RangeTabs value={rangeDays} onChange={setRangeDays} />
+          <RangeSlider value={rangeDays} onChange={setRangeDays} />
         </div>
       </div>
 
@@ -81,24 +81,6 @@ export default function StatsPage() {
             {metric === "spend" && "Spending"}
             {metric === "sessions" && "Sessions"}
           </CardTitle>
-          <div className="hidden sm:flex gap-2">
-            <KpiPill label="Avg/day">
-              {metric === "spend"
-                ? formatCurrency(avgForMetric)
-                : `${avgForMetric.toFixed(2)}${metric === "grams" ? "g" : ""}`}
-            </KpiPill>
-            <KpiPill label="Total">
-              {metric === "spend"
-                ? formatCurrency(totalForMetric)
-                : `${totalForMetric.toFixed(2)}${
-                    metric === "grams" ? "g" : ""
-                  }`}
-            </KpiPill>
-            <KpiPill label="Change">
-              {changePercent >= 0 ? "+" : ""}
-              {changePercent.toFixed(1)}%
-            </KpiPill>
-          </div>
         </div>
 
         <div className="h-72 relative overflow-hidden rounded-lg">
@@ -335,8 +317,8 @@ export default function StatsPage() {
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/3 rounded-lg" />
         </div>
 
-        {/* Mobile KPI pills under chart */}
-        <div className="mt-3 flex gap-2 sm:hidden">
+        {/* Usage stats under the graph */}
+        <div className="mt-4 flex gap-2 justify-center">
           <KpiPill label="Avg/day">
             {metric === "spend"
               ? formatCurrency(avgForMetric)
@@ -367,7 +349,7 @@ export default function StatsPage() {
   );
 }
 
-function RangeTabs({
+function RangeSlider({
   value,
   onChange,
 }: {
@@ -375,22 +357,35 @@ function RangeTabs({
   onChange: (v: number) => void;
 }) {
   const options = [7, 14, 30, 60, 90];
+  const currentIndex = options.indexOf(value);
+
   return (
-    <div className="inline-flex rounded-xl border-2 border-gray-400 p-0.5 h-10">
-      {options.map((opt) => (
-        <button
-          key={opt}
-          onClick={() => onChange(opt)}
-          className={cn(
-            "px-3 text-sm rounded-lg transition-colors flex items-center",
-            value === opt
-              ? "text-emerald-600 px-4 text-base font-bold"
-              : "text-white hover:text-foreground hover:bg-accent/50"
-          )}
-        >
-          {opt}d
-        </button>
-      ))}
+    <div className="relative w-48 h-10 bg-gray-800 rounded-xl border-2 border-gray-400 p-1">
+      <div className="flex h-full">
+        {options.map((opt, index) => (
+          <button
+            key={opt}
+            onClick={() => onChange(opt)}
+            className={cn(
+              "flex-1 flex items-center justify-center text-sm font-medium transition-all duration-200 rounded-lg relative",
+              value === opt
+                ? "text-emerald-600 bg-emerald-500/10 font-bold"
+                : "text-white hover:text-foreground/80"
+            )}
+          >
+            {opt}d
+          </button>
+        ))}
+      </div>
+      
+      {/* Sliding indicator */}
+      <div 
+        className="absolute top-1 bottom-1 bg-emerald-500/20 border border-emerald-500/30 rounded-lg transition-all duration-200 ease-out"
+        style={{
+          left: `${(currentIndex / (options.length - 1)) * 100}%`,
+          width: `${100 / options.length}%`,
+        }}
+      />
     </div>
   );
 }
