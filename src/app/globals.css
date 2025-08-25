@@ -44,23 +44,59 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* Enhanced Mobile Responsiveness */
 body {
   font-family: var(--font-ui), system-ui, -apple-system, Segoe UI, Roboto,
     Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   overflow-x: hidden;
   width: 100%;
   position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Ensure proper mobile viewport handling */
 html {
   overflow-x: hidden;
   width: 100%;
+  scroll-behavior: smooth;
 }
 
 /* Prevent horizontal scrolling on mobile */
 * {
   box-sizing: border-box;
+}
+
+/* Enhanced touch targets for mobile */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+select,
+a {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* Improved form inputs for mobile */
+input,
+textarea,
+select {
+  font-size: 16px; /* Prevents zoom on iOS */
+  -webkit-appearance: none;
+  border-radius: var(--radius);
+}
+
+/* Enhanced focus states for accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }
 
 /* Ensure modals and overlays don't cause horizontal scroll */
@@ -71,46 +107,68 @@ html {
   right: 0;
   bottom: 0;
   overflow: hidden;
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Range input styling */
+/* Enhanced Range input styling */
 input[type="range"] {
   accent-color: #16a34a; /* emerald-600 */
+  height: 6px;
+  border-radius: 3px;
+  background: var(--muted);
+  outline: none;
 }
 
 .slider::-webkit-slider-thumb {
   appearance: none;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: #16a34a;
   cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 3px solid var(--background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .slider::-moz-range-thumb {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   background: #16a34a;
   cursor: pointer;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 3px solid var(--background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
 }
 
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced dark mode slider styling */
 .dark .slider::-webkit-slider-thumb {
-  border: 2px solid #1f2937;
+  border: 3px solid var(--background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .dark .slider::-moz-range-thumb {
-  border: 2px solid #1f2937;
+  border: 3px solid var(--background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
+/* Enhanced animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -121,7 +179,7 @@ input[type="range"] {
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.97);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
@@ -129,11 +187,56 @@ input[type="range"] {
   }
 }
 
-.animate-fade-in-up {
-  animation: fadeInUp 200ms ease-out;
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .animate-scale-in {
-  animation: scaleIn 160ms ease-out;
+  animation: scaleIn 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-bottom {
+  animation: slideInFromBottom 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Enhanced transitions */
+.transition-all {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-colors {
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-transform {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Weed icon mask utility */
@@ -148,6 +251,7 @@ input[type="range"] {
   mask-size: contain;
 }
 
+/* Enhanced color scheme with better contrast */
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -183,38 +287,39 @@ input[type="range"] {
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Enhanced dark theme with better contrast and accessibility */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.95 0 0);
+  --primary-foreground: oklch(0.12 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.75 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.6 0 0);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar: oklch(0.12 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.18 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.6 0 0);
 }
 
 @layer base {
@@ -226,37 +331,323 @@ input[type="range"] {
   }
 }
 
-/* Reduce overall font weights */
+/* Enhanced mobile responsiveness */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Larger touch targets on mobile */
+  button,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  select,
+  a {
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Better spacing for mobile */
+  .space-y-4 > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .space-y-6 > * + * {
+    margin-top: 2rem;
+  }
+
+  /* Improved mobile navigation */
+  .bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Enhanced focus states for better accessibility */
+.focus-visible\:ring-2:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.focus-visible\:ring-offset-2:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring), 0 0 0 4px var(--background);
+}
+
+/* Reduce overall font weights for better readability */
 .font-bold {
-  font-weight: 500 !important; /* Reduced from 700 */
+  font-weight: 500 !important;
 }
 
 .font-semibold {
-  font-weight: 400 !important; /* Reduced from 600 */
+  font-weight: 400 !important;
 }
 
 .font-medium {
-  font-weight: 350 !important; /* Reduced from 500 */
+  font-weight: 350 !important;
 }
 
 /* Reduce font weights in specific components */
 .text-6xl,
 .text-7xl {
-  font-weight: 500 !important; /* Reduced from bold */
+  font-weight: 500 !important;
 }
 
 .text-3xl {
-  font-weight: 400 !important; /* Reduced from bold */
+  font-weight: 400 !important;
 }
 
 .text-2xl {
-  font-weight: 400 !important; /* Reduced from semibold */
+  font-weight: 400 !important;
 }
 
 .text-xl {
-  font-weight: 400 !important; /* Reduced from semibold */
+  font-weight: 400 !important;
 }
 
 .text-lg {
-  font-weight: 400 !important; /* Reduced from semibold */
+  font-weight: 400 !important;
+}
+
+/* Enhanced loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Enhanced scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
+/* Enhanced select dropdown styling for dark theme */
+.dark select {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+}
+
+.dark select option {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.dark select option:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.dark select option:checked {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Light theme select styling for consistency */
+select {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+}
+
+select option {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+select option:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+select option:checked {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Enhanced dropdown styling for custom dropdowns */
+.dark .metric-select button {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+}
+
+.dark .metric-select .absolute {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+}
+
+.dark .metric-select .absolute button {
+  background-color: transparent;
+  color: var(--card-foreground);
+}
+
+.dark .metric-select .absolute button:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.dark .metric-select .absolute button.bg-accent {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Enhanced dropdown styling for all custom dropdowns */
+.dark [class*="dropdown"] button,
+.dark [class*="select"] button {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+}
+
+.dark [class*="dropdown"] .absolute,
+.dark [class*="select"] .absolute {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+}
+
+.dark [class*="dropdown"] .absolute button,
+.dark [class*="select"] .absolute button {
+  background-color: transparent;
+  color: var(--card-foreground);
+}
+
+.dark [class*="dropdown"] .absolute button:hover,
+.dark [class*="select"] .absolute button:hover {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.dark [class*="dropdown"] .absolute button.bg-accent,
+.dark [class*="select"] .absolute button.bg-accent {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Ensure all dropdown containers have proper dark styling */
+.dark .bg-card\/90 {
+  background-color: var(--card) !important;
+}
+
+.dark .backdrop-blur {
+  backdrop-filter: blur(8px);
+}
+
+/* Enhanced focus states for dropdowns */
+.dark select:focus,
+.dark [class*="dropdown"] button:focus,
+.dark [class*="select"] button:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Additional browser-specific select styling */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+/* Dark theme select arrow */
+.dark select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Ensure select options have proper styling in all browsers */
+select option {
+  padding: 0.5rem;
+  margin: 0.125rem;
+  border-radius: 0.375rem;
+}
+
+/* Firefox specific select styling */
+@-moz-document url-prefix() {
+  select {
+    color: var(--card-foreground);
+    background-color: var(--card);
+  }
+
+  select option {
+    background-color: var(--card);
+    color: var(--card-foreground);
+  }
+
+  .dark select {
+    color: var(--card-foreground);
+    background-color: var(--card);
+  }
+
+  .dark select option {
+    background-color: var(--card);
+    color: var(--card-foreground);
+  }
+}
+
+/* Safari specific select styling */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  select {
+    color: var(--card-foreground);
+    background-color: var(--card);
+  }
+
+  select option {
+    background-color: var(--card);
+    color: var(--card-foreground);
+  }
 }

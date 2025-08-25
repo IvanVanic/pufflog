@@ -9,13 +9,23 @@ import {
   useState,
 } from "react";
 import type { LogEntry } from "@/types/log";
+import {
+  validateLogEntry,
+  validateLogEntryForm,
+  createLogEntry,
+} from "@/lib/validation";
 
 type EntriesContextValue = {
   entries: LogEntry[];
   addEntry: (e: LogEntry) => void;
+  addEntryFromForm: (formData: Omit<LogEntry, "id">) => {
+    success: boolean;
+    error?: string;
+  };
   deleteEntry: (id: string) => void;
   clearAll: () => void;
   seedSampleEntries: () => void;
+  importEntries: (entries: LogEntry[]) => void;
 };
 
 const EntriesContext = createContext<EntriesContextValue | undefined>(
@@ -34,14 +44,28 @@ export function EntriesProvider({ children }: { children: React.ReactNode }) {
         const parsed = JSON.parse(raw);
         // Validate that parsed data is an array
         if (Array.isArray(parsed)) {
-          setEntries(parsed);
+          // Validate each entry
+          const validEntries: LogEntry[] = [];
+          for (const entry of parsed) {
+            const validation = validateLogEntry(entry);
+            if (validation.success) {
+              validEntries.push(validation.data);
+            } else {
+              console.warn(
+                "Invalid entry found, skipping:",
+                entry,
+                validation.error
+              );
+            }
+          }
+          setEntries(validEntries);
         } else {
-          console.warn('Invalid entries data in localStorage, resetting');
+          console.warn("Invalid entries data in localStorage, resetting");
           localStorage.removeItem(STORAGE_KEY);
         }
       }
     } catch (error) {
-      console.error('Failed to load entries from localStorage:', error);
+      console.error("Failed to load entries from localStorage:", error);
       localStorage.removeItem(STORAGE_KEY);
     }
   }, []);
@@ -50,7 +74,7 @@ export function EntriesProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
     } catch (error) {
-      console.error('Failed to save entries to localStorage:', error);
+      console.error("Failed to save entries to localStorage:", error);
     }
   }, [entries]);
 
@@ -58,11 +82,32 @@ export function EntriesProvider({ children }: { children: React.ReactNode }) {
     (e: LogEntry) => setEntries((prev) => [e, ...prev]),
     []
   );
+
+  const addEntryFromForm = useCallback((formData: Omit<LogEntry, "id">) => {
+    try {
+      const validation = validateLogEntryForm(formData);
+      if (!validation.success) {
+        return { success: false, error: validation.error.message };
+      }
+
+      const newEntry = createLogEntry(validation.data);
+      setEntries((prev) => [newEntry, ...prev]);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: "Failed to create entry" };
+    }
+  }, []);
+
   const deleteEntry = useCallback(
     (id: string) => setEntries((prev) => prev.filter((e) => e.id !== id)),
     []
   );
+
   const clearAll = useCallback(() => setEntries([]), []);
+
+  const importEntries = useCallback((newEntries: LogEntry[]) => {
+    setEntries(newEntries);
+  }, []);
 
   const seedSampleEntries = useCallback(() => {
     const now = new Date();
@@ -89,8 +134,24 @@ export function EntriesProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ entries, addEntry, deleteEntry, clearAll, seedSampleEntries }),
-    [entries, addEntry, deleteEntry, clearAll, seedSampleEntries]
+    () => ({
+      entries,
+      addEntry,
+      addEntryFromForm,
+      deleteEntry,
+      clearAll,
+      seedSampleEntries,
+      importEntries,
+    }),
+    [
+      entries,
+      addEntry,
+      addEntryFromForm,
+      deleteEntry,
+      clearAll,
+      seedSampleEntries,
+      importEntries,
+    ]
   );
 
   return (

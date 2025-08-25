@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSettings } from "../providers/SettingsProvider";
 import { useEntries } from "../providers/EntriesProvider";
+import { DataManagement } from "../components/DataManagement";
 import {
   TrashIcon,
   ArrowPathIcon,
@@ -277,34 +278,8 @@ export default function SettingsPage() {
             </div>
           </section>
 
-          {/* Stats Section */}
-          <section className="space-y-3">
-            <h2 className="text-lg font-semibold">Your Data</h2>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg p-3 bg-black/[.04] dark:bg-white/[.04] text-center">
-                <div className="text-2xl font-bold">{stats.totalEntries}</div>
-                <div className="text-sm text-foreground/60">Total entries</div>
-              </div>
-              <div className="rounded-lg p-3 bg-black/[.04] dark:bg-white/[.04] text-center">
-                <div className="text-2xl font-bold">
-                  {stats.totalGrams.toFixed(1)}g
-                </div>
-                <div className="text-sm text-foreground/60">Total grams</div>
-              </div>
-              <div className="rounded-lg p-3 bg-black/[.04] dark:bg-white/[.04] text-center">
-                <div className="text-2xl font-bold">
-                  €{stats.totalSpent.toFixed(2)}
-                </div>
-                <div className="text-sm text-foreground/60">Total spent</div>
-              </div>
-              <div className="rounded-lg p-3 bg-black/[.04] dark:bg-white/[.04] text-center">
-                <div className="text-2xl font-bold">
-                  {stats.avgGramsPerEntry.toFixed(2)}g
-                </div>
-                <div className="text-sm text-foreground/60">Avg per entry</div>
-              </div>
-            </div>
-          </section>
+          {/* Data Management Section */}
+          <DataManagement />
 
           {/* Danger Zone */}
           <section className="space-y-3">

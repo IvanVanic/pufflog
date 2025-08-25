@@ -106,163 +106,232 @@ export default function StatsPage() {
             <div className="flex items-center justify-center h-full text-muted-foreground">
               <div className="text-center">
                 <div className="text-lg font-medium mb-2">No data yet</div>
-                <div className="text-sm">Add some entries to see your stats</div>
+                <div className="text-sm">
+                  Add some entries to see your stats
+                </div>
               </div>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
-              data={stats.byDay}
-              margin={{ left: 0, right: 0, top: 15, bottom: 15 }}
-            >
-              <defs>
-                <linearGradient id="gramsGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
-                  <stop offset="40%" stopColor="#10b981" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#10b981" stopOpacity={0.05} />
-                </linearGradient>
-                
-                <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8} />
-                  <stop offset="40%" stopColor="#f59e0b" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.05} />
-                </linearGradient>
-                
-                <linearGradient id="sessionsGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.8} />
-                  <stop offset="40%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.05} />
-                </linearGradient>
+                data={stats.byDay}
+                margin={{ left: 0, right: 0, top: 15, bottom: 15 }}
+              >
+                <defs>
+                  <linearGradient
+                    id="gramsGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.8} />
+                    <stop offset="40%" stopColor="#10b981" stopOpacity={0.4} />
+                    <stop
+                      offset="100%"
+                      stopColor="#10b981"
+                      stopOpacity={0.05}
+                    />
+                  </linearGradient>
 
-                <filter id="enhancedGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="coloredBlur"/>
-                  <feColorMatrix 
-                    in="coloredBlur" 
-                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.6 0"
-                  />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
+                  <linearGradient
+                    id="spendGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.8} />
+                    <stop offset="40%" stopColor="#f59e0b" stopOpacity={0.4} />
+                    <stop
+                      offset="100%"
+                      stopColor="#f59e0b"
+                      stopOpacity={0.05}
+                    />
+                  </linearGradient>
 
-                <filter id="subtleShadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="1" stdDeviation="2" floodOpacity="0.2"/>
-                </filter>
-              </defs>
+                  <linearGradient
+                    id="sessionsGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.8} />
+                    <stop offset="40%" stopColor="#8b5cf6" stopOpacity={0.4} />
+                    <stop
+                      offset="100%"
+                      stopColor="#8b5cf6"
+                      stopOpacity={0.05}
+                    />
+                  </linearGradient>
 
-              <CartesianGrid
-                stroke="hsl(var(--border))"
-                strokeOpacity={0.2}
-                vertical={false}
-                strokeDasharray="2 6"
-              />
+                  <filter
+                    id="enhancedGlow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feGaussianBlur
+                      in="SourceGraphic"
+                      stdDeviation="4"
+                      result="coloredBlur"
+                    />
+                    <feColorMatrix
+                      in="coloredBlur"
+                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.6 0"
+                    />
+                    <feMerge>
+                      <feMergeNode in="coloredBlur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
 
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                fontSize={10}
-                tick={{ 
-                  fill: "hsl(var(--muted-foreground))", 
-                  fontWeight: 500 
-                }}
-                interval="preserveStartEnd"
-                tickMargin={10}
-                height={40}
-              />
+                  <filter
+                    id="subtleShadow"
+                    x="-20%"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="0"
+                      dy="1"
+                      stdDeviation="2"
+                      floodOpacity="0.2"
+                    />
+                  </filter>
+                </defs>
 
-              {stats.byDay.some(d => d[metric] > 0) && (
-                <YAxis
+                <CartesianGrid
+                  stroke="hsl(var(--border))"
+                  strokeOpacity={0.2}
+                  vertical={false}
+                  strokeDasharray="2 6"
+                />
+
+                <XAxis
+                  dataKey="date"
                   tickLine={false}
                   axisLine={false}
                   fontSize={10}
-                  tick={{ 
-                    fill: "hsl(var(--muted-foreground))", 
-                    fontWeight: 500 
+                  tick={{
+                    fill: "hsl(var(--muted-foreground))",
+                    fontWeight: 500,
                   }}
-                  width={35}
-                  tickMargin={5}
-                  domain={['dataMin', 'dataMax']}
-                  tickCount={3}
-                  tickFormatter={(value) => {
-                    if (metric === "spend") return `€${value.toFixed(0)}`;
-                    if (metric === "grams") return `${value.toFixed(1)}`;
-                    return Math.round(value).toString();
-                  }}
+                  interval="preserveStartEnd"
+                  tickMargin={10}
+                  height={40}
                 />
-              )}
 
-              <Tooltip
-                content={({ active, payload, label }) => {
-                  if (!active || !payload || !payload.length) return null;
-                  
-                  const data = payload[0].payload;
-                  const value = data[metric];
-                  
-                  return (
-                    <div className="bg-background/98 backdrop-blur-sm border border-border/60 rounded-xl p-4 shadow-2xl">
-                      <div className="text-sm font-medium text-muted-foreground mb-2">
-                        {label}
-                      </div>
-                      <div className="text-xl font-bold tracking-tight" style={{ 
-                        color: metric === "grams" ? "#10b981" : 
-                               metric === "spend" ? "#f59e0b" : "#8b5cf6" 
-                      }}>
-                        {metric === "spend" 
-                          ? new Intl.NumberFormat(undefined, {
-                              style: "currency",
-                              currency: settings.currency,
-                            }).format(value)
-                          : metric === "grams"
-                          ? `${value.toFixed(2)}g`
-                          : `${Math.round(value)} sessions`
-                        }
-                      </div>
-                    </div>
-                  );
-                }}
-                cursor={{ 
-                  stroke: "hsl(var(--border))", 
-                  strokeWidth: 1, 
-                  strokeDasharray: "4 4",
-                  strokeOpacity: 0.6 
-                }}
-                allowEscapeViewBox={{ x: false, y: true }}
-              />
+                {stats.byDay.some((d) => d[metric] > 0) && (
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    fontSize={10}
+                    tick={{
+                      fill: "hsl(var(--muted-foreground))",
+                      fontWeight: 500,
+                    }}
+                    width={35}
+                    tickMargin={5}
+                    domain={["dataMin", "dataMax"]}
+                    tickCount={3}
+                    tickFormatter={(value) => {
+                      if (metric === "spend") return `€${value.toFixed(0)}`;
+                      if (metric === "grams") return `${value.toFixed(1)}`;
+                      return Math.round(value).toString();
+                    }}
+                  />
+                )}
 
-              <Area
-                type="monotone"
-                dataKey={metric}
-                stroke={
-                  metric === "grams" ? "#10b981" : 
-                  metric === "spend" ? "#f59e0b" : "#8b5cf6"
-                }
-                fill={
-                  metric === "grams" ? "url(#gramsGradient)" : 
-                  metric === "spend" ? "url(#spendGradient)" : "url(#sessionsGradient)"
-                }
-                strokeWidth={3.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                dot={false}
-                activeDot={{
-                  r: 5,
-                  stroke: metric === "grams" ? "#10b981" : 
-                          metric === "spend" ? "#f59e0b" : "#8b5cf6",
-                  strokeWidth: 2,
-                  fill: "hsl(var(--background))",
-                  filter: "url(#subtleShadow)"
-                }}
-                isAnimationActive={true}
-                animationDuration={1200}
-                animationEasing="ease-out"
-                filter="url(#enhancedGlow)"
-              />
+                <Tooltip
+                  content={({ active, payload, label }) => {
+                    if (!active || !payload || !payload.length) return null;
+
+                    const data = payload[0].payload;
+                    const value = data[metric];
+
+                    return (
+                      <div className="bg-background/98 backdrop-blur-sm border border-border/60 rounded-xl p-4 shadow-2xl">
+                        <div className="text-sm font-medium text-muted-foreground mb-2">
+                          {label}
+                        </div>
+                        <div
+                          className="text-xl font-bold tracking-tight"
+                          style={{
+                            color:
+                              metric === "grams"
+                                ? "#10b981"
+                                : metric === "spend"
+                                ? "#f59e0b"
+                                : "#8b5cf6",
+                          }}
+                        >
+                          {metric === "spend"
+                            ? new Intl.NumberFormat(undefined, {
+                                style: "currency",
+                                currency: settings.currency,
+                              }).format(value)
+                            : metric === "grams"
+                            ? `${value.toFixed(2)}g`
+                            : `${Math.round(value)} sessions`}
+                        </div>
+                      </div>
+                    );
+                  }}
+                  cursor={{
+                    stroke: "hsl(var(--border))",
+                    strokeWidth: 1,
+                    strokeDasharray: "4 4",
+                    strokeOpacity: 0.6,
+                  }}
+                  allowEscapeViewBox={{ x: false, y: true }}
+                />
+
+                <Area
+                  type="monotone"
+                  dataKey={metric}
+                  stroke={
+                    metric === "grams"
+                      ? "#10b981"
+                      : metric === "spend"
+                      ? "#f59e0b"
+                      : "#8b5cf6"
+                  }
+                  fill={
+                    metric === "grams"
+                      ? "url(#gramsGradient)"
+                      : metric === "spend"
+                      ? "url(#spendGradient)"
+                      : "url(#sessionsGradient)"
+                  }
+                  strokeWidth={3.5}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  dot={false}
+                  activeDot={{
+                    r: 5,
+                    stroke:
+                      metric === "grams"
+                        ? "#10b981"
+                        : metric === "spend"
+                        ? "#f59e0b"
+                        : "#8b5cf6",
+                    strokeWidth: 2,
+                    fill: "hsl(var(--background))",
+                    filter: "url(#subtleShadow)",
+                  }}
+                  isAnimationActive={true}
+                  animationDuration={1200}
+                  animationEasing="ease-out"
+                  filter="url(#enhancedGlow)"
+                />
               </AreaChart>
             </ResponsiveContainer>
           )}
-          
+
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/3 rounded-lg" />
         </div>
 

@@ -7,6 +7,7 @@ import { NavigationWrapper } from "./components/NavigationWrapper";
 import { AppHeader } from "./components/AppHeader";
 import "./globals.css";
 import { TaperProvider } from "./providers/TaperProvider";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,27 +44,36 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#16a34a",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${josefin.variable} ${rubik.variable} antialiased overflow-x-hidden`}
+        suppressHydrationWarning
       >
-        <SettingsProvider>
-          <EntriesProvider>
-            <TaperProvider>
-              <div className="min-h-dvh flex flex-col overflow-hidden">
-                <AppBar />
-                <div className="flex-1 overflow-hidden">{children}</div>
-                <NavigationWrapper />
-              </div>
-            </TaperProvider>
-          </EntriesProvider>
-        </SettingsProvider>
+        <ErrorBoundary>
+          <SettingsProvider>
+            <EntriesProvider>
+              <TaperProvider>
+                <div className="min-h-dvh flex flex-col overflow-hidden">
+                  <AppBar />
+                  <div className="flex-1 overflow-hidden animate-fade-in-up">
+                    {children}
+                  </div>
+                  <NavigationWrapper />
+                </div>
+              </TaperProvider>
+            </EntriesProvider>
+          </SettingsProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
